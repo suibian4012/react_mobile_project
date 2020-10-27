@@ -4,7 +4,7 @@ import { composeWithDevTools } from "redux-devtools-extension";
 import reducers from "./reducers";
 
 let middleware = applyMiddleware(thunk);
-if (Process.env.NODE_ENV === "development") {
+if (process.env.NODE_ENV === "development") {
   middleware = composeWithDevTools(middleware);
 }
 export default createStore(reducers, middleware);
