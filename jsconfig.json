@@ -5,7 +5,8 @@
       "@utils/*": ["./src/utils/*"],
       "@api/*": ["./src/api/*"],
       "@pages/*": ["./src/pages/*"],
-      "@config/*": ["./src/config/*"]
+      "@config/*": ["./src/config/*"],
+      "@components/*": ["./src/components/*"]
     },
     "baseUrl": ".",
     "module": "es6"

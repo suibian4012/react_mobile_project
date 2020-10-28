@@ -12,7 +12,8 @@ import { createForm } from "rc-form";
 import "./index.css";
 import { reqVerifyPhone } from "@api/regist";
 // import { reqVerifyCode } from "@api/common";
-import VerifyButton from "../../../components/VerifyButton";
+// import VerifyButton from "../../../components/VerifyButton";
+import VerifyButton from "@components/VerifyButton";
 class VerifyPhone extends Component {
   state = {
     isDisabled: true,
@@ -70,7 +71,7 @@ class VerifyPhone extends Component {
     try {
       const phone = this.props.form.getFieldValue("phone");
       const result = await reqVerifyPhone(phone);
-      console.log("success", result);
+      console.log("success");
     } catch (e) {
       Toast.fail(e, 3);
     }
