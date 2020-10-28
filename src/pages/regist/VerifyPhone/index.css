@@ -1,0 +1,26 @@
+.left {
+  color: #000;
+}
+.verify-phone-prefix {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+.verify-phone-input {
+  margin-top: 30px;
+}
+.warning-btn {
+  border-radius: 30px;
+  width: 90%;
+  margin: 30px auto 0;
+}
+.policy-text {
+  color: #000;
+}
+.policy-strong-text {
+  text-decoration: underline;
+}
+.policy-content {
+  display: block;
+  text-align: left;
+}
