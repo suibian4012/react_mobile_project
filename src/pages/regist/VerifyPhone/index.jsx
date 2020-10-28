@@ -11,7 +11,8 @@ import {
 import { createForm } from "rc-form";
 import "./index.css";
 import { reqVerifyPhone } from "@api/regist";
-import { reqVerifyCode } from "@api/common";
+// import { reqVerifyCode } from "@api/common";
+import VerifyButton from "../../../components/VerifyButton";
 class VerifyPhone extends Component {
   state = {
     isDisabled: true,
@@ -40,17 +41,16 @@ class VerifyPhone extends Component {
     //   ]
     // );
     //输入通过正则校验的手机号后，点击下一步进行图形验证码
-    window.verifyCallback = async (res) => {
-      console.log(res);
-
-      // res.ret=0时为校验成功
-      if (res.ret === 0) {
-        // 客户端验证成功，再进行服务端验证
-        await reqVerifyCode(res.randstr, res.ticket);
-        //客户端和服务端都验证成功，再进行手机号验证，看是否已经存在（已经注册过）
-        await this.next();
-      }
-    };
+    // window.verifyCallback = async (res) => {
+    //   console.log(res);
+    //   // res.ret=0时为校验成功
+    //   if (res.ret === 0) {
+    //     // 客户端验证成功，再进行服务端验证
+    //     await reqVerifyCode(res.randstr, res.ticket);
+    //     //客户端和服务端都验证成功，再进行手机号验证，看是否已经存在（已经注册过）
+    //     await this.next();
+    //   }
+    // };
   }
   validator = (rule, value, callback) => {
     const reg = /^(0|86|17951)?(13[0-9]|15[012356789]|166|17[3678]|18[0-9]|14[57])[0-9]{8}$/;
@@ -101,7 +101,7 @@ class VerifyPhone extends Component {
                 <Icon type="down" />
               </div>
             </InputItem>
-            <Button
+            {/* <Button
               type="warning"
               className="warning-btn"
               disabled
@@ -118,7 +118,8 @@ class VerifyPhone extends Component {
               type="warning"
             >
               下一步
-            </Button>
+            </Button> */}
+            <VerifyButton isDisabled={isDisabled} callback={this.next} />
           </div>
         </WingBlank>
       </div>
