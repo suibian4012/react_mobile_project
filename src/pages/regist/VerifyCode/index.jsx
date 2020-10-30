@@ -93,7 +93,7 @@ class VerifyCode extends Component {
         <NavBar
           mode="light"
           icon={<Icon className="left" type="left" />}
-          onLeftClick={() => console.log("onLeftClick")}
+          onLeftClick={() => this.props.history.goBack()}
         >
           硅谷注册
         </NavBar>

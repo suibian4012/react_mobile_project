@@ -1,11 +1,9 @@
 import React, { Component } from "react";
-import { NavBar, Icon, InputItem, WingBlank, Modal, Toast } from "antd-mobile";
+import { NavBar, Icon, InputItem, WingBlank, Modal } from "antd-mobile";
 import { createForm } from "rc-form";
 import "./index.css";
 import { reqVerifyPhone } from "@api/regist";
 import { reqSendCode } from "@api/login";
-// import { reqVerifyCode } from "@api/common";
-// import VerifyButton from "../../../components/VerifyButton";
 import VerifyButton from "@components/VerifyButton";
 class VerifyPhone extends Component {
   state = {
@@ -50,17 +48,12 @@ class VerifyPhone extends Component {
   //服务端验证手机号是否存在(即是否已经注册过)
   verifyPhone = async () => {
     //获取输入框输入的值
-    try {
-      const phone = this.props.form.getFieldValue("phone");
-      await reqVerifyPhone(phone);
-      // 请求成功 - 手机号不存在
-      // 提示弹框 - 确认请求短信验证码
-      this.sendCode(phone);
-    } catch (e) {
-      if (e === "fail") return;
-      // 请求失败 - 手机号存在
-      Toast.fail(e, 3);
-    }
+
+    const phone = this.props.form.getFieldValue("phone");
+    await reqVerifyPhone(phone);
+    // 请求成功 - 手机号不存在
+    // 提示弹框 - 确认请求短信验证码
+    this.sendCode(phone);
   };
   //发送短信验证码
   sendCode = (phone) => {
@@ -80,18 +73,21 @@ class VerifyPhone extends Component {
       },
     ]);
   };
-  goBack = () => {
-    this.props.history.goBack();
+  //点击跳转到countrypicker页面
+  toCountryPicker = () => {
+    this.props.history.push("/common/countryData", "/regist/verifyPhone");
   };
+
   render() {
     const { isDisabled } = this.state;
     const { getFieldProps } = this.props.form;
+    const value = this.props.location.state || "+86";
     return (
       <div>
         <NavBar
           mode="light"
           icon={<Icon type="left" className="left" />}
-          onLeftClick={this.goBack}
+          onLeftClick={() => this.props.history.goBack()}
         >
           硅谷注册
         </NavBar>
@@ -104,8 +100,11 @@ class VerifyPhone extends Component {
                 rules: [{ validator: this.validator }],
               })}
             >
-              <div className="verify-phone-prefix">
-                <span>+86</span>
+              <div
+                className="verify-phone-prefix"
+                onTouchEnd={this.toCountryPicker}
+              >
+                <span>{value}</span>
                 <Icon type="down" />
               </div>
             </InputItem>
