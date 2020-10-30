@@ -11,6 +11,7 @@ import {
 import { createForm } from "rc-form";
 import "./index.css";
 import { reqVerifyPhone } from "@api/regist";
+import { reqSendCode } from "@api/login";
 // import { reqVerifyCode } from "@api/common";
 // import VerifyButton from "../../../components/VerifyButton";
 import VerifyButton from "@components/VerifyButton";
@@ -41,17 +42,6 @@ class VerifyPhone extends Component {
     //     },
     //   ]
     // );
-    //输入通过正则校验的手机号后，点击下一步进行图形验证码
-    // window.verifyCallback = async (res) => {
-    //   console.log(res);
-    //   // res.ret=0时为校验成功
-    //   if (res.ret === 0) {
-    //     // 客户端验证成功，再进行服务端验证
-    //     await reqVerifyCode(res.randstr, res.ticket);
-    //     //客户端和服务端都验证成功，再进行手机号验证，看是否已经存在（已经注册过）
-    //     await this.next();
-    //   }
-    // };
   }
   validator = (rule, value, callback) => {
     const reg = /^(0|86|17951)?(13[0-9]|15[012356789]|166|17[3678]|18[0-9]|14[57])[0-9]{8}$/;
@@ -66,15 +56,37 @@ class VerifyPhone extends Component {
     callback();
   };
   //服务端验证手机号是否存在(即是否已经注册过)
-  next = async () => {
+  verifyPhone = async () => {
     //获取输入框输入的值
     try {
       const phone = this.props.form.getFieldValue("phone");
       const result = await reqVerifyPhone(phone);
-      console.log("success");
+      // 请求成功 - 手机号不存在
+      // 提示弹框 - 确认请求短信验证码
+      this.sendCode(phone);
     } catch (e) {
+      if (e === "fail") return;
+      // 请求失败 - 手机号存在
       Toast.fail(e, 3);
     }
+  };
+  //发送短信验证码
+  sendCode = (phone) => {
+    Modal.alert("", `我们将发送短信/语音验证码至：${phone}`, [
+      {
+        text: "不同意",
+      },
+      {
+        text: "同意",
+        style: { backgroundColor: "red", color: "#fff" },
+        onPress: async () => {
+          //发送短信验证码请求
+          await reqSendCode(phone);
+          //成功则路由跳转
+          this.props.history.push("/regist/verifycode");
+        },
+      },
+    ]);
   };
   render() {
     const { isDisabled } = this.state;
@@ -102,25 +114,12 @@ class VerifyPhone extends Component {
                 <Icon type="down" />
               </div>
             </InputItem>
-            {/* <Button
-              type="warning"
-              className="warning-btn"
-              disabled
-              style={{ display: isDisabled ? "block" : "none" }}
-            >
-              下一步
-            </Button>
-            <Button
-              style={{ display: !isDisabled ? "block" : "none" }}
-              id="TencentCaptcha"
-              data-appid="2030765311"
-              data-cbfn="verifyCallback"
-              className="warning-btn"
-              type="warning"
-            >
-              下一步
-            </Button> */}
-            <VerifyButton isDisabled={isDisabled} callback={this.next} />
+
+            <VerifyButton
+              isDisabled={isDisabled}
+              callback={this.verifyPhone}
+              buttonText={"下一步"}
+            />
           </div>
         </WingBlank>
       </div>

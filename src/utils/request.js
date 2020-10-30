@@ -1,4 +1,5 @@
 import axios from "axios";
+import {Toast} from 'antd-mobile'
 const requset = axios.create({
   baseURL: "/",
   // timeout: 2000,
@@ -50,7 +51,8 @@ requset.interceptors.response.use(
         console.log("连接超时");
       }
     }
-    return Promise.reject(message);
+    Toast.fail(message,3)
+    return Promise.reject('fail');
   }
 );
 export default requset;

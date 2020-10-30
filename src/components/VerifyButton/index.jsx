@@ -1,10 +1,10 @@
-import React, { Component, useEffect } from "react";
+import React, { Component } from "react";
 import { Button } from "antd-mobile";
 import { reqVerifyCode } from "@api/common";
 export default class VerifyButton extends Component {
   componentDidMount() {
     window.verifyCallback = async (res) => {
-      console.log(res);
+      // console.log(res);
 
       // res.ret=0时为校验成功
       if (res.ret === 0) {
@@ -17,7 +17,7 @@ export default class VerifyButton extends Component {
     };
   }
   render() {
-    const { isDisabled } = this.props;
+    const { isDisabled, buttonText } = this.props;
     return (
       <div>
         <Button
@@ -26,7 +26,7 @@ export default class VerifyButton extends Component {
           disabled
           style={{ display: isDisabled ? "block" : "none" }}
         >
-          下一步
+          {buttonText}
         </Button>
         <Button
           style={{ display: !isDisabled ? "block" : "none" }}
@@ -36,7 +36,7 @@ export default class VerifyButton extends Component {
           className="warning-btn"
           type="warning"
         >
-          下一步
+          {buttonText}
         </Button>
       </div>
     );
