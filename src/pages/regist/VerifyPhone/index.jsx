@@ -1,13 +1,5 @@
 import React, { Component } from "react";
-import {
-  NavBar,
-  Icon,
-  InputItem,
-  WingBlank,
-  Button,
-  Modal,
-  Toast,
-} from "antd-mobile";
+import { NavBar, Icon, InputItem, WingBlank, Modal, Toast } from "antd-mobile";
 import { createForm } from "rc-form";
 import "./index.css";
 import { reqVerifyPhone } from "@api/regist";
@@ -60,7 +52,7 @@ class VerifyPhone extends Component {
     //获取输入框输入的值
     try {
       const phone = this.props.form.getFieldValue("phone");
-      const result = await reqVerifyPhone(phone);
+      await reqVerifyPhone(phone);
       // 请求成功 - 手机号不存在
       // 提示弹框 - 确认请求短信验证码
       this.sendCode(phone);
@@ -83,10 +75,13 @@ class VerifyPhone extends Component {
           //发送短信验证码请求
           await reqSendCode(phone);
           //成功则路由跳转
-          this.props.history.push("/regist/verifycode");
+          this.props.history.push("/regist/verifycode", phone);
         },
       },
     ]);
+  };
+  goBack = () => {
+    this.props.history.goBack();
   };
   render() {
     const { isDisabled } = this.state;
@@ -96,7 +91,7 @@ class VerifyPhone extends Component {
         <NavBar
           mode="light"
           icon={<Icon type="left" className="left" />}
-          onLeftClick={() => console.log("onLeftClick")}
+          onLeftClick={this.goBack}
         >
           硅谷注册
         </NavBar>

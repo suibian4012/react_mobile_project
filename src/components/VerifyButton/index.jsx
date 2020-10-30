@@ -10,8 +10,7 @@ export default class VerifyButton extends Component {
       if (res.ret === 0) {
         // 客户端验证成功，再进行服务端验证
         await reqVerifyCode(res.randstr, res.ticket);
-        //客户端和服务端都验证成功，再进行手机号验证，看是否已经存在（已经注册过）
-        // await this.next();
+        //做其他事
         this.props.callback();
       }
     };
