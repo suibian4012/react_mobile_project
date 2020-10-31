@@ -5,6 +5,7 @@ import msg from "./msg.png";
 import "./index.css";
 import { reqVerifyCode } from "@api/regist";
 import { reqSendCode } from "@api/login";
+import { codeReg } from "@utils/reg";
 const TOTAL_TIME = 10; //倒计时总时间
 class VerifyCode extends Component {
   state = {
@@ -62,9 +63,8 @@ class VerifyCode extends Component {
   };
   //验证输入的手机验证码是否符合正则，符合则下一步按钮状态为启用，否则为禁用状态
   validatorCode = async (rule, value, callback) => {
-    const reg = /^[0-9]{6}$/;
     let isDisabled = true;
-    if (reg.test(value)) {
+    if (codeReg.test(value)) {
       //通过正则验证，则将下一步按钮状态改为启动状态
       isDisabled = false;
     }

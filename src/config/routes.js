@@ -2,6 +2,7 @@ import VerifyPhone from "@pages/regist/VerifyPhone";
 import VerifyCode from "@pages/regist/VerifyCode";
 import VerifyPassword from "@pages/regist/VerifyPassword";
 import CountryPicker from "@components/CountryPicker";
+import PhoneLogin from "@pages/login/PhoneLogin";
 const routes = [
   {
     path: "/regist/verifyPhone",
@@ -21,6 +22,11 @@ const routes = [
   {
     path: "/common/countryData",
     component: CountryPicker,
+    exact: true,
+  },
+  {
+    path: "/login",
+    component: PhoneLogin,
     exact: true,
   },
 ];

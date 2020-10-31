@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { createForm } from "rc-form";
 import "./index.css";
 import msg from "./msg.png";
-
+import { passwordReg } from "@utils/reg";
 function VerifyPassword({ form }) {
   //状态数据ciphertext，默认值为true密文,setciphertext设置密文
   const [ciphertext, setciphertext] = useState(true);
@@ -18,9 +18,8 @@ function VerifyPassword({ form }) {
   const iptType = isPwd ? "password" : "text";
   //输入的密码如果符合正则，下一步按钮切换为启动状态
   const validator = (rule, value, callback) => {
-    const reg = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,20}$/;
     let isDisabled = true;
-    if (reg.test(value)) {
+    if (passwordReg.test(value)) {
       isDisabled = false;
     }
     setDisabled(isDisabled);

@@ -5,6 +5,7 @@ import "./index.css";
 import { reqVerifyPhone } from "@api/regist";
 import { reqSendCode } from "@api/login";
 import VerifyButton from "@components/VerifyButton";
+import { phoneReg } from "@utils/reg";
 class VerifyPhone extends Component {
   state = {
     isDisabled: true,
@@ -34,9 +35,8 @@ class VerifyPhone extends Component {
     // );
   }
   validator = (rule, value, callback) => {
-    const reg = /^(0|86|17951)?(13[0-9]|15[012356789]|166|17[3678]|18[0-9]|14[57])[0-9]{8}$/;
     let isDisabled = true;
-    if (reg.test(value)) {
+    if (phoneReg.test(value)) {
       isDisabled = false;
     }
     this.setState({
